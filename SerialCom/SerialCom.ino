@@ -5,10 +5,12 @@
   #include <avr/power.h>
 #endif
 
+// I am using a NANO v3.0 clone so pins below are mapped to that change as needed.
+
 #define PIN 9 // Pin that will be used for the RGB strip
 #define PIX 19 // Number of pixels in the strip
 #define INTERNAL_MOTOR_STEPS 32 // Number of revolutions of the Internal Motor in 4-step mode
-#define OUTPUT_SHAFT_REVS 32 * 64 //2048  Number of revolutions of the Output Shaft
+#define OUTPUT_SHAFT_REV 32 * 64 //2048  Number of internal steps for 1 revolution of the Output Shaft
 #define In1 3 // Pin for motor driver In1
 #define In2 4 // Pin for motor driver In2
 #define In3 5 // Pin for motor driver In3
@@ -133,18 +135,18 @@ void loop() {
         Serial.print("I received: ");
         Serial.print(stringRead);
         Serial.println('\n');
-        Steps  =  OUTPUT_SHAFT_REVS ;  // Rotate CW 1 turn
+        Steps  =  OUTPUT_SHAFT_REV ;
         small_stepper.setSpeed(500);   
         small_stepper.step(Steps);
         delay(1000); 
       }
-      // Move the stepper Forward 1 full rotation counter clockwise
+      // Move the stepper Forward 1 full rotation counterclockwise
       else if (stringRead.equals("Back"))
       {
         Serial.print("I received: ");
         Serial.print(stringRead);
         Serial.println('\n');
-        Steps  =  - OUTPUT_SHAFT_REVS ;  // Rotate CCW 1 turn
+        Steps  =  - OUTPUT_SHAFT_REV ;
         small_stepper.setSpeed(500);   
         small_stepper.step(Steps);
         delay(1000); 
