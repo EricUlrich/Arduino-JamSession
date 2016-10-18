@@ -15,6 +15,7 @@
 #define In2 4 // Pin for motor driver In2
 #define In3 5 // Pin for motor driver In3
 #define In4 6 // Pin for motor driver In4
+#define buttonPin 2 // Button pin
 
 // 4 pins connected to driver In1, In2, In3, In4  
 // sequence 1-3-2-4 for proper sequencing
@@ -37,6 +38,8 @@ byte byteRead;
 String stringRead;
 int incomingByte = 0;  // for incoming serial data
 int Steps;
+int buttonPush = 0;
+int buttonState = 0;
 
 enum
 {
@@ -44,8 +47,10 @@ enum
 };
 
 
-void setup() {                
-// Turn the Serial Protocol ON
+void setup() {     
+  pinMode(buttonPin, INPUT); // Set the button PIN for input
+     
+  // Turn the Serial Protocol ON
   Serial.begin(115200);
     // This is for Trinket 5V 16MHz, you can remove these three lines if you are not using a Trinket
   #if defined (__AVR_ATtiny85__)
@@ -59,6 +64,20 @@ void setup() {
 }
 
 void loop() {
+  // read the pushbutton input pin:
+  buttonState = digitalRead(buttonPin);
+  
+  if (buttonState == HIGH) {
+        // if the current state is HIGH then the button
+        // wend from off to on:
+        buttonPush++;
+        Serial.println("on");
+        Serial.print("number of button pushes:  ");
+        Serial.println(buttonPush);
+        delay(400);
+   }
+  
+
 
   // send data only when you receive data:
   if (Serial.available() > 0) {
@@ -104,6 +123,17 @@ void loop() {
         theaterChase(strip.Color(127, 45, 25), 50); // Yellow
         colorWipe(strip.Color(255, 90, 0), 50); // Yellow
       }
+      else if (stringRead.equals("Brown"))
+      {
+        // if nothing else matches, do the default
+        // default is optional
+        // say what you got:
+        Serial.print("I received: ");
+        Serial.print(stringRead);
+        Serial.println('\n');
+        theaterChase(strip.Color(56, 40, 21), 50); // Brown
+        colorWipe(strip.Color(56, 40, 21), 50); // Brown
+      }
       else if (stringRead.equals("Wipe"))
       {
         // if nothing else matches, do the default
@@ -115,6 +145,7 @@ void loop() {
         // theaterChase(strip.Color(127, 45, 25), 50); // Yellow
         colorWipe(strip.Color(0, 0, 0), 50); // Off
         strip.show(); // Initialize all pixels to 'off'
+        buttonPush == 0;
       }
       else if (stringRead.equals("Help"))
       {
