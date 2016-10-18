@@ -20,6 +20,7 @@
 // sequence 1-3-2-4 for proper sequencing
 Stepper small_stepper(INTERNAL_MOTOR_STEPS, In1, In3, In2, In4);
 
+
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
 // Parameter 3 = pixel type flags, add together as needed:
@@ -123,31 +124,53 @@ void loop() {
         Serial.print("I received: ");
         Serial.print(stringRead);
         Serial.println('\n');
-        Serial.print("Commands: Red, Blue, Green, Yellow, Wipe, Forward, Back, Dump, Help");
+        Serial.print("Commands: Red, Blue, Green, Yellow, Wipe, 1Forward, .5Forward, 1Back, .5Back, Dump, Help");
         Serial.println('\n');
         // theaterChase(strip.Color(127, 45, 25), 50); // Yellow
         // colorWipe(strip.Color(0, 0, 0), 50); // Off
         // strip.show(); // Initialize all pixels to 'off'
       }
       // Move the stepper Forward 1 full rotation clockwise
-      else if (stringRead.equals("Forward"))
+      else if (stringRead.equals("1Forward"))
       {
         Serial.print("I received: ");
         Serial.print(stringRead);
         Serial.println('\n');
         Steps  =  OUTPUT_SHAFT_REV ;
-        small_stepper.setSpeed(500);   
+        small_stepper.setSpeed(800);   
         small_stepper.step(Steps);
         delay(1000); 
       }
-      // Move the stepper Forward 1 full rotation counterclockwise
-      else if (stringRead.equals("Back"))
+      // Move the stepper Forward 1/2 rotation clockwise
+      else if (stringRead.equals(".5Forward"))
+      {
+        Serial.print("I received: ");
+        Serial.print(stringRead);
+        Serial.println('\n');
+        Steps  =  OUTPUT_SHAFT_REV / 2;
+        small_stepper.setSpeed(800);   
+        small_stepper.step(Steps);
+        delay(1000); 
+      }
+      // Move the stepper Backward 1 full rotation counterclockwise
+      else if (stringRead.equals("1Back"))
       {
         Serial.print("I received: ");
         Serial.print(stringRead);
         Serial.println('\n');
         Steps  =  - OUTPUT_SHAFT_REV ;
-        small_stepper.setSpeed(500);   
+        small_stepper.setSpeed(800);   // 800 works is running 32 steps.
+        small_stepper.step(Steps);
+        delay(1000); 
+      }
+      // Move the stepper Backward 1/2 rotation counterclockwise
+      else if (stringRead.equals(".5Back"))
+      {
+        Serial.print("I received: ");
+        Serial.print(stringRead);
+        Serial.println('\n');
+        Steps  =  - OUTPUT_SHAFT_REV / 2;
+        small_stepper.setSpeed(800);   // 800 works is running 32 steps.
         small_stepper.step(Steps);
         delay(1000); 
       }
