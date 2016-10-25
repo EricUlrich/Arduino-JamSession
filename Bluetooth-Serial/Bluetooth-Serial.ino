@@ -61,16 +61,39 @@ void loop()
     if (BTserial.available())
     {  
         intVal = BTserial.read();
-        Serial.print(intVal);
+        Serial.print(intVal.toInt());
         BTserial.print(intVal);
         BTserial.print('\n');
         String redVal = getValue(String(intVal), ':', 0);
         String blueVal = getValue(String(intVal), ':', 1);
         String greenVal = getValue(String(intVal), ':', 2);
-        BTserial.println(redVal);
-        BTserial.println(blueVal);
-        BTserial.println(greenVal);
-        colorWipe(strip.Color(redVal.toInt(), blueVal.toInt(), greenVal.toInt()), 50);
+        //BTserial.println(redVal);
+        //BTserial.println(blueVal);
+        //BTserial.println(greenVal);
+        switch (intVal.toInt()) {
+        case 1:
+          colorWipe(strip.Color(255, 0, 0), 50); //Red
+          break;
+        case 2:
+          colorWipe(strip.Color(0, 0, 255), 50); //Blue
+          break;
+        case 3:
+          colorWipe(strip.Color(0, 255, 0), 50); //Green
+          break;
+        case 4:
+          colorWipe(strip.Color(255, 90, 0), 50); //Yellow
+          break;
+        case 5:
+          colorWipe(strip.Color(255, 255, 255), 50); //White
+          break;
+        case 6:
+          colorWipe(strip.Color(0, 0, 0), 50); //Off
+          break;
+        default:
+          // Do nothing here
+          // Optional
+          break;
+        }
     }
  
     // Keep reading from Arduino Serial Monitor and send to HC-05
@@ -86,7 +109,21 @@ void loop()
         Serial.println(redVal);
         Serial.println(blueVal);
         Serial.println(greenVal);
-        colorWipe(strip.Color(redVal.toInt(), blueVal.toInt(), greenVal.toInt()), 50);
+        switch (intVal.toInt()) {
+        case '1':
+          colorWipe(strip.Color('255', '0', '0'), 50);
+          break;
+        case '2':
+          colorWipe(strip.Color('0', '255', '0'), 50);
+          break;
+        case '3':
+          colorWipe(strip.Color('0', '0', '255'), 50);
+          break;
+        default:
+          // Do nothing here
+          // Optional
+          break;
+        }
     }
 }
 
