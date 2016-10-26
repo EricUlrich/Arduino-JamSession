@@ -17,7 +17,7 @@ SoftwareSerial BTserial(2, 3); // RX | TX
   #include <avr/power.h>
 #endif
 
-int i = 0;
+int i = 1;
 char c = ' ';
 String intVal;
 int redVal = 0;
@@ -64,12 +64,12 @@ void loop()
     if (BTserial.available())
     {  
         intVal = BTserial.read();
-        Serial.print(intVal);
+        //Serial.print(intVal);
         //BTserial.print(intVal);
         //BTserial.print('\n');
-        Serial.print('\n');
-        Serial.print(String(intVal));
-        Serial.print('\n');
+        //Serial.print('\n');
+        //Serial.print(String(intVal));
+        //Serial.print('\n');
         //String redVal = getValue(String(intVal), '58', 0);
         //String blueVal = getValue(String(intVal), '58', 1);
         //String greenVal = getValue(String(intVal), '58', 2);
@@ -83,37 +83,79 @@ void loop()
         case 1:
           redVal = intVal.toInt();
           //colorWipe(strip.Color(255, 0, 0), 50); //Red
+          //Serial.write('Case #1: i value: ');
+          //Serial.print(i);
+          //Serial.print('\n');
           Serial.print(redVal);
+          Serial.print('\n');
+          i++;
           break;
         case 2:
-          //colorWipe(strip.Color(0, 0, 255), 50); //Blue
           // throw out the value
+          //Serial.write('Case #2: i value: ');
+          //Serial.print(i);
+          //Serial.print('\n');
+          i++;
           break;
         case 3:
-          blueVal = intVal.toInt();
+          greenVal = intVal.toInt();
           //colorWipe(strip.Color(0, 255, 0), 50); //Green
-          Serial.print(blueVal);
+          //Serial.write('Case #3: i value: ');
+          //Serial.print(i);
+          //Serial.print('\n');
+          Serial.print(greenVal);
+          Serial.print('\n');
+          i++;
           break;
         case 4:
           //colorWipe(strip.Color(255, 90, 0), 50); //Yellow
           // throw out the value
+          //Serial.write('Case #4: i value: ');
+          //Serial.print(i);
+          //Serial.print('\n');
+          i++;
           break;
         case 5:
-          greenVal = intVal.toInt();
+          blueVal = intVal.toInt();
+          //colorWipe(strip.Color(0, 0, 255), 50); //Blue
           //colorWipe(strip.Color(255, 255, 255), 50); //White
-          Serial.print(greenVal);
+          //Serial.write('Case #5: i value: ');
+          //Serial.print(i);
+          //Serial.print('\n');
+          Serial.print(blueVal);
+          Serial.print('\n');
+          colorWipe(strip.Color(redVal, greenVal, blueVal), 50);
+          i = 0;
           break;
         case 6:
-          //colorWipe(strip.Color(0, 0, 0), 50); //Off
+          //colorWipe(strip.Color(0, 0, 255), 50); //Blue
+          //colorWipe(strip.Color(255, 255, 255), 50); //White
+          //Serial.write('Case #5: i value: ');
+          //Serial.print(i);
+          //Serial.print('\n');
+          Serial.print(intVal.toInt());
+          Serial.print('\n');
+          colorWipe(strip.Color(0, 0, 0), 50);
           i = 0;
           break;
         default:
+          //colorWipe(strip.Color(0, 0, 0), 50); //Off
+          //Serial.print(i);
+          //Serial.print('\n');
+          Serial.print(intVal.toInt());
+          Serial.print('\n');
+          i = 0;
+          //Serial.print(i);
+          //Serial.print('\n');
           // Do nothing here
           // Optional
           break;
         }
-        i++;
+        
+        
     }
+    
+    
  
     // Keep reading from Arduino Serial Monitor and send to HC-05
     if (Serial.available())
