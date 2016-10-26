@@ -17,9 +17,12 @@ SoftwareSerial BTserial(2, 3); // RX | TX
   #include <avr/power.h>
 #endif
 
-
+int i = 0;
 char c = ' ';
 String intVal;
+int redVal = 0;
+int blueVal = 0;
+int greenVal = 0;
 #define ledPin 7 //LED PIN Normal LED
 #define rgbPIN 9 // Pin that will be used for the RGB strip
 #define rgdPIX 10 // Number of pixels in the strip
@@ -61,39 +64,55 @@ void loop()
     if (BTserial.available())
     {  
         intVal = BTserial.read();
-        Serial.print(intVal.toInt());
-        BTserial.print(intVal);
-        BTserial.print('\n');
-        String redVal = getValue(String(intVal), ':', 0);
-        String blueVal = getValue(String(intVal), ':', 1);
-        String greenVal = getValue(String(intVal), ':', 2);
+        Serial.print(intVal);
+        //BTserial.print(intVal);
+        //BTserial.print('\n');
+        Serial.print('\n');
+        Serial.print(String(intVal));
+        Serial.print('\n');
+        //String redVal = getValue(String(intVal), '58', 0);
+        //String blueVal = getValue(String(intVal), '58', 1);
+        //String greenVal = getValue(String(intVal), '58', 2);
         //BTserial.println(redVal);
         //BTserial.println(blueVal);
         //BTserial.println(greenVal);
-        switch (intVal.toInt()) {
+        //Serial.print(redVal);
+        //Serial.print(blueVal);
+        //Serial.print(greenVal);
+        switch (i) {
         case 1:
-          colorWipe(strip.Color(255, 0, 0), 50); //Red
+          redVal = intVal.toInt();
+          //colorWipe(strip.Color(255, 0, 0), 50); //Red
+          Serial.print(redVal);
           break;
         case 2:
-          colorWipe(strip.Color(0, 0, 255), 50); //Blue
+          //colorWipe(strip.Color(0, 0, 255), 50); //Blue
+          // throw out the value
           break;
         case 3:
-          colorWipe(strip.Color(0, 255, 0), 50); //Green
+          blueVal = intVal.toInt();
+          //colorWipe(strip.Color(0, 255, 0), 50); //Green
+          Serial.print(blueVal);
           break;
         case 4:
-          colorWipe(strip.Color(255, 90, 0), 50); //Yellow
+          //colorWipe(strip.Color(255, 90, 0), 50); //Yellow
+          // throw out the value
           break;
         case 5:
-          colorWipe(strip.Color(255, 255, 255), 50); //White
+          greenVal = intVal.toInt();
+          //colorWipe(strip.Color(255, 255, 255), 50); //White
+          Serial.print(greenVal);
           break;
         case 6:
-          colorWipe(strip.Color(0, 0, 0), 50); //Off
+          //colorWipe(strip.Color(0, 0, 0), 50); //Off
+          i = 0;
           break;
         default:
           // Do nothing here
           // Optional
           break;
         }
+        i++;
     }
  
     // Keep reading from Arduino Serial Monitor and send to HC-05
@@ -103,21 +122,21 @@ void loop()
         BTserial.print(intVal); 
         Serial.print(intVal);
         Serial.print('\n');
-        String redVal = getValue(String(intVal), ':', 0);
-        String blueVal = getValue(String(intVal), ':', 1);
-        String greenVal = getValue(String(intVal), ':', 2);
-        Serial.println(redVal);
-        Serial.println(blueVal);
-        Serial.println(greenVal);
+        //String redVal = getValue(String(intVal), '58', 0);
+        //String blueVal = getValue(String(intVal), '58', 1);
+        //String greenVal = getValue(String(intVal), '58', 2);
+        //Serial.println(redVal);
+        //Serial.println(blueVal);
+        //Serial.println(greenVal);
         switch (intVal.toInt()) {
-        case '1':
-          colorWipe(strip.Color('255', '0', '0'), 50);
+        case 1:
+          colorWipe(strip.Color(255, 0, 0), 50);
           break;
-        case '2':
-          colorWipe(strip.Color('0', '255', '0'), 50);
+        case 2:
+          colorWipe(strip.Color(0, 255, 0), 50);
           break;
-        case '3':
-          colorWipe(strip.Color('0', '0', '255'), 50);
+        case 3:
+          colorWipe(strip.Color(0, 0, 255), 50);
           break;
         default:
           // Do nothing here
@@ -126,7 +145,6 @@ void loop()
         }
     }
 }
-
 
 
 // Fill the dots one after the other with a color
