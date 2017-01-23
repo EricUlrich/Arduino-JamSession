@@ -146,17 +146,50 @@ void loop()
         //Serial.println(redVal);
         //Serial.println(blueVal);
         //Serial.println(greenVal);
-        switch (intVal.toInt()) {
+        switch (i) {
         case 1:
-          colorWipe(strip.Color(255, 0, 0), 50);
+          redVal = intVal.toInt();
+          //colorWipe(strip.Color(255, 0, 0), 50); //Red
+          //Serial.write('Case #1: i value: ');
+          //Serial.print(i);
+          Serial.print("Red Vaule: ");
+          Serial.print(redVal);
+          Serial.print('\n');
+          i++;
           break;
         case 2:
-          colorWipe(strip.Color(0, 255, 0), 50);
+          greenVal = intVal.toInt();
+          //colorWipe(strip.Color(0, 255, 0), 50); //Green
+          //Serial.write('Case #3: i value: ');
+          //Serial.print(i);
+          Serial.print("Green Value: ");
+          Serial.print(greenVal);
+          Serial.print('\n');
+          i++;
           break;
         case 3:
-          colorWipe(strip.Color(0, 0, 255), 50);
+          blueVal = intVal.toInt();
+          //colorWipe(strip.Color(0, 0, 255), 50); //Blue
+          //colorWipe(strip.Color(255, 255, 255), 50); //White
+          //Serial.write('Case #5: i value: ');
+          //Serial.print(i);
+          Serial.print("Blue Value: ");
+          Serial.print(blueVal);
+          Serial.print('\n');
+          colorWipe(strip.Color(redVal, greenVal, blueVal), 50);
+          i = 1;
           break;
         default:
+          //colorWipe(strip.Color(0, 0, 0), 50); //Off
+          Serial.print("Index # ");
+          Serial.print(i);
+          Serial.print('\n');
+          Serial.print("Incoming Value: ");
+          Serial.print(intVal.toInt());
+          Serial.print('\n');
+          i = 1;
+          //Serial.print(i);
+          //Serial.print('\n');
           // Do nothing here
           // Optional
           break;
