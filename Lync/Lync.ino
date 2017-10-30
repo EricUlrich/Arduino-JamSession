@@ -5,7 +5,7 @@
 #endif
 
 #define PIN 9 // Pin that will be used for the RGB strip
-#define PIX 12 // Number of pixels in the strip
+#define PIX 8 // Number of pixels in the strip
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
