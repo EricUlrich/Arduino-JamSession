@@ -1,4 +1,4 @@
-#include <Wire.h> 
+//#include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // Set the LCD I2C address
@@ -17,7 +17,7 @@ const int MotorBOutput2 = 6;
 
 // Set motor Speeds
 // 50=12.5s, 55=10.3s, 60=9s, 65=8s, 70=7.2s, 75=6.5s, 80=6.1, 85=5.9s, 90=5.7
-int MotorSpeedTable[] = {50,55,60,65,70,75,80,85,90};
+int MotorSpeedTable[] = {70,75,80,85,90,95,100,105,110};
 
 const int buttonPin = 2;
 const int ledPin = 3;
@@ -68,7 +68,12 @@ void SetMotorsOn(int MotorSpeed=60) {
  digitalWrite(MotorBOutput1, HIGH);
  digitalWrite(MotorBOutput2, LOW);
  // set speed out of possible range 0~255
- analogWrite(MotorBSpeed, MotorSpeed);
+ if (!MotorSpeed) {
+  analogWrite(MotorBSpeed, 0);
+ }
+ else {
+ analogWrite(MotorBSpeed, MotorSpeed + 28);
+ }
  
 }
  

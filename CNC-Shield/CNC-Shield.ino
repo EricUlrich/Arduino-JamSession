@@ -21,7 +21,7 @@ AccelStepper motorY(1, MOTOR_Y_STEP_PIN, MOTOR_Y_DIR_PIN);
 //AccelStepper motorZ(1, MOTOR_Z_STEP_PIN, MOTOR_Z_DIR_PIN); 
 
 // counter if needed
-int count = 0;
+long count = 0;
 
 String stringRead;
 
@@ -37,18 +37,26 @@ void setup()
   motorY.setEnablePin(MOTOR_Y_ENABLE_PIN);
   motorY.setPinsInverted(false, false, true);
 
-  motorX.setAcceleration(100);  
-  motorX.move(1000);
-  motorX.setMaxSpeed(600);
-  motorX.setSpeed(50);
+  motorX.setAcceleration(100);
+  motorX.moveTo(20000);
+  motorX.setMaxSpeed(50);
+  //motorX.setSpeed(50);
 
-  motorY.setAcceleration(100);  
-  motorY.move(100);
-  motorY.setMaxSpeed(600);
-  motorY.setSpeed(25);
+  motorY.setAcceleration(100); 
+  motorY.moveTo(25);
+  motorY.setMaxSpeed(5);
+  //motorY.setSpeed(15);
 
   motorX.enableOutputs();
   motorY.enableOutputs();
+}
+void MotorY_Feed(int Posi = 0)
+{
+  //unsigned long num = motorY.currentPosition();
+  //Serial.println(num);
+  
+    motorY.moveTo(Posi);
+    //motorY.run();
 }
 
 void loop()
@@ -107,13 +115,18 @@ void loop()
   // 
   //Serial.println("Motor X");
   //motorX.run();
-  //motorX.runSpeed();
+  //otorX.runSpeed();
   //delay(5000);
   // 
   //Serial.println("Motor Y");
-  //motorY.run();
-  //motorY.move(-100);
-  //motorY.run();
+  // Change direction at the limits
+  if (motorY.distanceToGo() == 0){
+    motorY.moveTo(-motorY.currentPosition());
+  }
+  
+  motorX.run();
+  motorY.run();
+ 
   //motorY.runSpeed();
   //delay(5000);
 
@@ -121,6 +134,7 @@ void loop()
   //motorX.stop();
   //motorY.stop();
   //increment count 
-  //count ++;
-  //Serial.println(count);
+  count ++;
+  if (count == 201) { count = 0;}
+  Serial.println(count);
 }
