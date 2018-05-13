@@ -36,19 +36,30 @@ void setup()
   motorX.setPinsInverted(false, false, true);
   motorY.setEnablePin(MOTOR_Y_ENABLE_PIN);
   motorY.setPinsInverted(false, false, true);
-
-  motorX.setAcceleration(100);
-  motorX.moveTo(20000);
-  motorX.setMaxSpeed(50);
-  //motorX.setSpeed(50);
-
-  motorY.setAcceleration(100); 
-  motorY.moveTo(25);
-  motorY.setMaxSpeed(5);
-  //motorY.setSpeed(15);
-
+  if (count == 0) {
+    motorY.setCurrentPosition(0);
+    motorX.setCurrentPosition(0);
+  }
+  motorX.setAcceleration(100); // steps per second
+  motorY.setAcceleration(100);
+  motorX.setMaxSpeed(60);
+  //motorY.setMaxSpeed(10);
+  //good
+  //motorX.setMaxSpeed(130);
+  //motorY.setMaxSpeed(260);
+  //motorX.setSpeed(15);
+  motorY.setSpeed(5);
   motorX.enableOutputs();
   motorY.enableOutputs();
+  /*
+  if (count == 0) {
+    motorY.setCurrentPosition(0);
+    motorX.setCurrentPosition(0);
+  }
+  */
+  motorX.moveTo(20000); // divide this number your stepping resolution
+  motorY.moveTo(132);  // divide this number your stepping resolution
+  
 }
 void MotorY_Feed(int Posi = 0)
 {
@@ -61,6 +72,14 @@ void MotorY_Feed(int Posi = 0)
 
 void loop()
 {
+  /*
+  if (count == 0) {
+    motorY.moveTo(0);
+    motorX.moveTo(0);
+    motorX.run();
+    motorY.run();
+  }
+  */
   // send data only when you receive data:
   if (Serial.available() > 0) {
     // read the incoming first byte:
@@ -121,11 +140,15 @@ void loop()
   //Serial.println("Motor Y");
   // Change direction at the limits
   if (motorY.distanceToGo() == 0){
-    motorY.moveTo(-motorY.currentPosition());
+    //motorY.moveTo(-motorY.currentPosition());
+    motorY.moveTo(0);
   }
+
   
   motorX.run();
   motorY.run();
+  //if ( (motorY.currentPosition() & 0x01) == 0) { motorY.run(); }
+  
  
   //motorY.runSpeed();
   //delay(5000);
@@ -135,6 +158,6 @@ void loop()
   //motorY.stop();
   //increment count 
   count ++;
-  if (count == 201) { count = 0;}
-  Serial.println(count);
+  
+  //Serial.println(count);
 }
