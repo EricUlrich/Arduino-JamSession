@@ -71,8 +71,13 @@ void setup() {
   pinMode(Y_STP, OUTPUT);
   //pinMode(Z_DIR, OUTPUT); 
   //pinMode(Z_STP, OUTPUT);
+  // adding a 5 second startup delay to manually HOME both motors.
+  // will add homeing code later with switches or sensors.
+  if (count == 0 ) {
+  delay(5000);
   pinMode(EN, OUTPUT);
   digitalWrite(EN, LOW);
+  }
 }
 
 void loop() {
