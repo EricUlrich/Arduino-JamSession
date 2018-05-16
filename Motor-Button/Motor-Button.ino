@@ -1,4 +1,4 @@
-//#include <Wire.h>
+#include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // Set the LCD I2C address
@@ -72,7 +72,7 @@ void SetMotorsOn(int MotorSpeed=60) {
   analogWrite(MotorBSpeed, 0);
  }
  else {
- analogWrite(MotorBSpeed, MotorSpeed + 28);
+ analogWrite(MotorBSpeed, MotorSpeed + 29);
  }
  
 }
