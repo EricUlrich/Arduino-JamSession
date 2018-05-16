@@ -24,7 +24,9 @@ int defaultdelay=4500; //Delay between each pause (uS)
 int stps=800;// Steps to move 200 full steps = 200 steps per rev
 
 long count = 0;
-int hallstate = 0;
+int Hall_X_End = 0;
+int Hall_Y_End = 0;
+int Hall_Z_End = 0;
 
 void step(boolean dir, byte dirPin, byte stepperPin, int steps, int delaytime)
 
@@ -77,14 +79,31 @@ void setup() {
   //pinMode(Z_STP, OUTPUT);
   pinMode(X_END, INPUT_PULLUP);
   pinMode(Y_END, INPUT_PULLUP);
-
-  // adding a 5 second startup delay to manually HOME both motors.
-  // will add homeing code later with switches or sensors.
-  if (count == 0 ) {
-  delay(5000);
+  // Enable motors, if disabled they will spin freely
   pinMode(EN, OUTPUT);
   digitalWrite(EN, LOW);
-  }
+  
+  // Home the motors to the hall sensors
+  do
+  {
+    Hall_X_End = digitalRead(X_END);
+    digitalWrite(X_STP, HIGH);
+    delayMicroseconds(defaultdelay); 
+    digitalWrite(X_STP, LOW);
+    delayMicroseconds(defaultdelay);
+  } while (Hall_X_End != LOW);
+  delay(1000);
+  do
+  {
+    Hall_Y_End = digitalRead(Y_END);
+    digitalWrite(Y_STP, HIGH);
+    delayMicroseconds(defaultdelay); 
+    digitalWrite(Y_STP, LOW);
+    delayMicroseconds(defaultdelay);
+  } while (Hall_Y_End != LOW);
+  delay(1000);
+
+
 }
 
 void loop() {
@@ -102,10 +121,7 @@ void loop() {
  //step(true, Z_DIR, Z_STP, stps, defaultdelay); //X, Counterclockwise
   Dance();
  //delay(100);
-hallstate = digitalRead(X_END);
-if (hallstate == LOW) {
-  delay(2000);
-}
+
 //increment count 
 count ++;
 //Serial.println(count);
