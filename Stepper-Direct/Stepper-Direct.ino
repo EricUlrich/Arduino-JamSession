@@ -10,6 +10,10 @@
 #define Y_STP     3 
 #define Z_STP     4 
 
+//End Stops
+#define X_END 9
+#define Y_END 10
+#define Z_END 11
 
 //DRV8825
 //int defaultdelay=30; //Delay between each pause (uS)
@@ -20,7 +24,7 @@ int defaultdelay=4500; //Delay between each pause (uS)
 int stps=800;// Steps to move 200 full steps = 200 steps per rev
 
 long count = 0;
-
+int hallstate = 0;
 
 void step(boolean dir, byte dirPin, byte stepperPin, int steps, int delaytime)
 
@@ -71,6 +75,9 @@ void setup() {
   pinMode(Y_STP, OUTPUT);
   //pinMode(Z_DIR, OUTPUT); 
   //pinMode(Z_STP, OUTPUT);
+  pinMode(X_END, INPUT_PULLUP);
+  pinMode(Y_END, INPUT_PULLUP);
+
   // adding a 5 second startup delay to manually HOME both motors.
   // will add homeing code later with switches or sensors.
   if (count == 0 ) {
@@ -95,7 +102,10 @@ void loop() {
  //step(true, Z_DIR, Z_STP, stps, defaultdelay); //X, Counterclockwise
   Dance();
  //delay(100);
-
+hallstate = digitalRead(X_END);
+if (hallstate == LOW) {
+  delay(2000);
+}
 //increment count 
 count ++;
 //Serial.println(count);

@@ -5,15 +5,17 @@
 #define MOTOR_X_ENABLE_PIN 8
 #define MOTOR_X_STEP_PIN 2
 #define MOTOR_X_DIR_PIN 5
+#define MOTOR_X_END_PIN 9
 
 #define MOTOR_Y_ENABLE_PIN 8
 #define MOTOR_Y_STEP_PIN 3
 #define MOTOR_Y_DIR_PIN 6
+#define MOTOR_Y_END_PIN 10
 
 #define MOTOR_Z_ENABLE_PIN 8
 #define MOTOR_Z_STEP_PIN 4
 #define MOTOR_Z_DIR_PIN 7
-
+#define MOTOR_Z_END_PIN 11
 
 
 AccelStepper motorX(1, MOTOR_X_STEP_PIN, MOTOR_X_DIR_PIN); 
@@ -32,6 +34,9 @@ void setup()
   // Stepper motor
   pinMode(MOTOR_X_ENABLE_PIN, OUTPUT);
   pinMode(MOTOR_Y_ENABLE_PIN, OUTPUT);
+  pinMode(MOTOR_X_END_PIN, INPUT_PULLUP);
+  pinMode(MOTOR_Y_END_PIN, INPUT_PULLUP);
+
   motorX.setEnablePin(MOTOR_X_ENABLE_PIN);
   motorX.setPinsInverted(false, false, true);
   motorY.setEnablePin(MOTOR_Y_ENABLE_PIN);
