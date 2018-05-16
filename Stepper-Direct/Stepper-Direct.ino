@@ -30,6 +30,8 @@ int Hall_X_End = 0;
 int Hall_Y_End = 0;
 int Hall_Z_End = 0;
 
+int prev_val = 1;
+unsigned long startTime, endTime; //time variables
 
 void step(boolean dir, byte dirPin, byte stepperPin, int steps, int delaytime)
 {
@@ -56,6 +58,9 @@ void Dance()
     delayMicroseconds(defaultdelay); 
     digitalWrite(X_STP, LOW);
     delayMicroseconds(defaultdelay);
+
+    //Hall_X_End = digitalRead(X_END);
+    //Serial.println(Hall_X_End);
     // Y driver = Feeder motor CW 3/8 of a turn
     // adding the remaining 
     if (i <= 300) {
@@ -122,11 +127,20 @@ void loop() {
  //step(true, X_DIR, X_STP, stps, defaultdelay); //X, Counterclockwise
  //step(true, Y_DIR, Y_STP, stps, defaultdelay); //Y, Counterclockwise
  //step(true, Z_DIR, Z_STP, stps, defaultdelay); //X, Counterclockwise
+
+//get start time before the stepper rotation
+startTime = micros();
+//Serial.println(cur_t);
   Dance();
  //delay(100);
 
 //increment count 
 count ++;
-//Serial.println(count);
+//get stop time after the stepper rotation
+endTime = micros();
+// Add LCD screen print here instead of serial output
+//Serial.println((endTime - startTime)); //print the start and end time in micros
+Serial.println(1000000 * 60 / (endTime - startTime)); //print the rpm
+//Serial.println(Hall_X_End);
 
 }
