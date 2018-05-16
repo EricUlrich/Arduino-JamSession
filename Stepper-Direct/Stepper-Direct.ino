@@ -21,15 +21,17 @@
 
 //A4988 Stepper Motor Driver
 int defaultdelay=4500; //Delay between each pause (uS)
-int stps=800;// Steps to move 200 full steps = 200 steps per rev
+// Steps to move 200 full steps = 200 steps per rev
+// half steps = 400, quarter steps = 800, eighth steps = 1600
+int stps=800;
 
 long count = 0;
 int Hall_X_End = 0;
 int Hall_Y_End = 0;
 int Hall_Z_End = 0;
 
-void step(boolean dir, byte dirPin, byte stepperPin, int steps, int delaytime)
 
+void step(boolean dir, byte dirPin, byte stepperPin, int steps, int delaytime)
 {
 
   digitalWrite(dirPin, dir);
@@ -43,6 +45,7 @@ void step(boolean dir, byte dirPin, byte stepperPin, int steps, int delaytime)
 
 }
 
+// Move the main drum motor and the feeder motor in concert
 void Dance()
 {
   // X driver = Drum motor CCW
